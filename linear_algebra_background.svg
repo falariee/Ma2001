@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+    <rect width="800" height="600" fill="#1e1e1e" />
+    <text x="50" y="100" font-family="Arial" font-size="20" fill="#2ECC71" opacity="0.2">∇f(x)</text>
+    <text x="200" y="200" font-family="Arial" font-size="18" fill="#2ECC71" opacity="0.2">Ax = b</text>
+    <text x="100" y="300" font-family="Arial" font-size="22" fill="#2ECC71" opacity="0.2">λx = Ax</text>
+    <text x="300" y="150" font-family="Arial" font-size="16" fill="#2ECC71" opacity="0.2">e^{iπ} + 1 = 0</text>
+    <text x="400" y="400" font-family="Arial" font-size="20" fill="#2ECC71" opacity="0.2">|A| = det(A)</text>
+    <text x="600" y="250" font-family="Arial" font-size="18" fill="#2ECC71" opacity="0.2">a^2 + b^2 = c^2</text>
+</svg>

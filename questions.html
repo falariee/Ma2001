@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Pool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Question Pool</h1>
+        </header>
+        <main>
+            <div id="question-container" class="question-list"></div>
+            <button class="action-btn" onclick="downloadQuestions()">Done</button>
+        </main>
+    </div>
+    <script>
+        async function loadQuestions() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const topic = urlParams.get('topic');
+            const response = await fetch('/api/questions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ topic })
+            });
+            const data = await response.json();
+            const container = document.getElementById('question-container');
+            data.questions.forEach(q => {
+                const div = document.createElement('div');
+                div.className = "question-item";
+                div.innerHTML = `<label><input type="checkbox" value="${q.Question}"> ${q.Question}</label>`;
+                container.appendChild(div);
+            });
+        }
+
+        async function downloadQuestions() {
+            const selectedQuestions = Array.from(document.querySelectorAll('input:checked')).map(input => input.value);
+            if (selectedQuestions.length === 0) {
+                alert("Please select at least one question!");
+                return;
+            }
+
+            const response = await fetch('/api/download', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ questions: selectedQuestions })
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'selected_questions.xlsx');
+                document.body.appendChild(link);
+                link.click();
+                link.parentNode.removeChild(link);
+                alert("File downloaded successfully!");
+            }
+        }
+        loadQuestions();
+    </script>
+</body>
+</html>

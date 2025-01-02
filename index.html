@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Questions Generator</h1>
+        </header>
+        <main>
+            <div class="quiz-grid" id="quiz-container"></div>
+        </main>
+    </div>
+    <script>
+        async function loadQuizzes() {
+            const response = await fetch('/api/quizzes');
+            const data = await response.json();
+            const container = document.getElementById('quiz-container');
+            data.topics.forEach(topic => {
+                const button = document.createElement('button');
+                button.textContent = topic;
+                button.className = "quiz-btn";
+                button.onclick = () => window.location.href = `/questions?topic=${encodeURIComponent(topic)}`;
+                container.appendChild(button);
+            });
+        }
+        loadQuizzes();
+    </script>
+</body>
+</html>
